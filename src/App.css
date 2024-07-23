@@ -1,3 +1,5 @@
+/* Custom Css For the Todo List Components */
+
 .todoinput{
   display: flex;
   margin-bottom: 20px;
@@ -18,38 +20,29 @@
   margin-right: 15px;
 }
 
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.todo-item{
+  padding-bottom: 15px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.todo-list{
+  box-shadow: 1px 2px 3px gray;
+  padding: 10px 10px 0px;
+  border-radius: 8px;
+  margin-bottom: 30px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.todo-title{
+  width: 80%;
 }
 
-.App-link {
-  color: #61dafb;
+.login-form{
+  box-shadow: 1px 2px 3px gray;
+  padding: 10px 10px 0px;
+  border-radius: 8px;
+  margin:30px 0px;
+  height: 250px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logoutbtn{
+  width: 200px !important;
 }

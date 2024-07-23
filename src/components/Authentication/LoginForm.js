@@ -14,7 +14,7 @@ const LoginForm = () => {
     setPassword("");
   };
   return (
-    <div className="container">
+    <div className="container login-form">
       <div className="row justify-content-center">
         <div className="col-lg-5">
           <form onSubmit={handleSubmit}>

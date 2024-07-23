@@ -5,6 +5,7 @@ import { users } from "../MockUserData";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  //Storing the isAuthenticated and user state locally to get data in case of refresh
   const [isAuthenticated, setIsAuthenticated] = useState(
     JSON.parse(localStorage.getItem("isAuthenticated")) || false
   );
@@ -18,8 +19,7 @@ export const AuthProvider = ({ children }) => {
   }, [isAuthenticated, user]);
 
   const login = (userData) => {
-    // Mock authentication logic
-    console.log(userData);
+    // Authentication logic for user referring to mockdata
     const foundUser = users.filter((u) => {
       return (
         u.userName === userData.username && u.password === userData.password
@@ -29,13 +29,13 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(true);
       setUser(userData);
     } else {
-      alert("Invalid User");
+      alert("Please enter correct details");
     }
   };
 
   const logout = () => {
+    //Logout user logic
     setIsAuthenticated(false);
-    //localStorage.clear();
   };
 
   return (

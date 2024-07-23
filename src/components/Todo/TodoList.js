@@ -4,28 +4,32 @@ import AuthContext from "../Authentication/AuthContext";
 import TodoForm from "./TodoForm";
 
 const TodoList = () => {
-  const { isAuthenticated, user, logout } = useContext(AuthContext);
-  const [todos, setTodos] = useState([]);
-  const [filter, setFilter] = useState("all");
+  const { user, logout } = useContext(AuthContext);
+  const [todos, setTodos] = useState([]); //For storing the todo items
+  const [filter, setFilter] = useState("all"); //To store the filtered state
 
+  //The filter options provided manually
   const filterOptions = {
     all: "All",
     active: "Active",
     completed: "Completed",
   };
 
+  //To locally fetch the todo items based on username
   useEffect(() => {
     const storedTodos =
       JSON.parse(localStorage.getItem(`todos_${user.username}`)) || [];
     setTodos(storedTodos);
   }, [user.username]);
 
+  //To locally store the todo items based on username
   useEffect(() => {
     if (todos.length > 0) {
       localStorage.setItem(`todos_${user.username}`, JSON.stringify(todos));
     }
   }, [user.username, todos]);
 
+  //To filter items based on their status
   const filteredTodos = todos.filter((todo) => {
     if (filter === "all") {
       return true;
@@ -37,13 +41,18 @@ const TodoList = () => {
     return true;
   });
 
+  //Adding a new item to the list
   const addTodo = (title) => {
     const newTodo = { id: Date.now(), title, completed: false };
     setTodos([...todos, newTodo]);
   };
+
+  //Editing the items in todo list
   const editTodo = (id, title) => {
     setTodos(todos.map((todo) => (todo.id === id ? { ...todo, title } : todo)));
   };
+
+  //To togggle a todo's state by checking/unchecking the checkbox
   const toggleComplete = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -52,56 +61,55 @@ const TodoList = () => {
     );
   };
 
+  //To remove a todo item from the list
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
     <>
-      {isAuthenticated ? (
-        <div className="container p-3">
-          <div className="row">
-            <h2>User : {user.username}</h2>
-            <TodoForm onAddTodo={addTodo} />
-            <div className="filterbuttons">
-              {Object.keys(filterOptions).map((filterKey) => {
-                const buttonText = filterOptions[filterKey];
-                let buttonClass = "btn"; // Default class
-                if (buttonText === "All") {
-                  buttonClass += " btn-warning";
-                } else if (buttonText === "Completed") {
-                  buttonClass += " btn-danger";
-                } else if (buttonText === "Active") {
-                  buttonClass += " btn-success";
-                }
-                return (
-                  <button
-                    className={buttonClass}
-                    key={filterKey}
-                    onClick={() => setFilter(filterKey)}
-                  >
-                    {filterOptions[filterKey]}
-                  </button>
-                );
-              })}
-            </div>
-            <ul className="">
-              {filteredTodos.map((todo) => (
-                <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  onToggleComplete={toggleComplete}
-                  onDelete={deleteTodo}
-                  onEdit={editTodo}
-                />
-              ))}
-            </ul>
-            <button onClick={logout}>Logout</button>
+      <div className="container p-3">
+        <div className="row">
+          <h2>User : {user.username}</h2>
+          <TodoForm onAddTodo={addTodo} />
+          <div className="filterbuttons mb-4">
+            {Object.keys(filterOptions).map((filterKey) => {
+              const buttonText = filterOptions[filterKey];
+              let buttonClass = "btn"; // Default class
+              if (buttonText === "All") {
+                buttonClass += " btn-info";
+              } else if (buttonText === "Completed") {
+                buttonClass += " btn-success";
+              } else if (buttonText === "Active") {
+                buttonClass += " btn-warning";
+              }
+              return (
+                <button
+                  className={buttonClass}
+                  key={filterKey}
+                  onClick={() => setFilter(filterKey)}
+                >
+                  {filterOptions[filterKey]}
+                </button>
+              );
+            })}
           </div>
+          <ul className="todo-list">
+            {filteredTodos.map((todo) => (
+              <TodoItem
+                key={todo.id}
+                todo={todo}
+                onToggleComplete={toggleComplete}
+                onDelete={deleteTodo}
+                onEdit={editTodo}
+              />
+            ))}
+          </ul>
+          <button className="btn btn-dark logoutbtn" onClick={logout}>
+            Logout
+          </button>
         </div>
-      ) : (
-        <p>Please login to view your todo list</p>
-      )}
+      </div>
     </>
   );
 };

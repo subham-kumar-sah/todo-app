@@ -10,9 +10,11 @@ const Layout = () => {
     <>
       {isAuthenticated ? (
         <>
+          {/* Rendering the Todo List */}
           <TodoList />
         </>
       ) : (
+        /* Rendering the LogIn Form */
         <LoginForm />
       )}
     </>

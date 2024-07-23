@@ -1,6 +1,23 @@
-.App {
-  text-align: center;
+.todoinput{
+  display: flex;
+  margin-bottom: 20px;
+  
 }
+
+.todoinput input{
+  width: 40%;
+  margin-right: 15px;
+}
+
+.filterbuttons{
+  display: flex;
+}
+
+.filterbuttons button{
+  width: 200px;
+  margin-right: 15px;
+}
+
 
 .App-logo {
   height: 40vmin;
